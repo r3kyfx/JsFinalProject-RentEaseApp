@@ -32,18 +32,28 @@ logBtn.addEventListener("click" , () => {
 })
 
 actualLogBtn.addEventListener("click" , () => {
-    
+    logErrors.innerText = "";
+
     const users = JSON.parse(localStorage.getItem("users")) || [];
 
     const findUser = users.find((user) => (user.email === logEmail.value && user.password === logPass.value));
+    console.log(findUser)
     if(findUser){
+        users.forEach(user => {
+            if(user.email === findUser.email)
+                user.isLogged = true;
+            else user.isLogged = false;
+        });
+        localStorage.setItem("users" , JSON.stringify(users));
         window.location.href = "./HomePage.html";
     }else{
         logErrors.innerText = "Email or password invalid";
     }
+
 })
 
 actualRegBtn.addEventListener("click" , () => {
+    regErrors.innerText = "";
     const regInputs = Array.from(regForm.querySelectorAll("input"));
     const clearInputs = regInputs.filter(input => input.value === "");
     const filledInputs = regInputs.filter(input => input.value !== "");
@@ -70,7 +80,9 @@ actualRegBtn.addEventListener("click" , () => {
             regPass.value,
             firstName.value,
             lastName.value,
-            birthDate.value
+            birthDate.value,
+            false,
+            []
         );
 
         users.push(newUser);
