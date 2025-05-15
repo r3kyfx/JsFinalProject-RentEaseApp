@@ -11,4 +11,8 @@ function checkPassword(password) {
     return "";
 }
 
-export { checkPassword };
+function checkTimeOut(currentTime , loggedTime){
+    return currentTime > loggedTime + 60 * 60 * 1000
+}
+
+export { checkPassword , checkTimeOut};

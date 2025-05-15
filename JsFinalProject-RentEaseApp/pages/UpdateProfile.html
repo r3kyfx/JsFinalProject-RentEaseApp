@@ -14,8 +14,10 @@
         <div class="updatePf-form">
           <h1>Update Profile</h1>
           <div class="inputs">
-            <label for="email">Email</label>
-            <input type="email" placeholder="Email" required id="updatePfEmail" />
+            <div class="labeledInput">
+              <label >Email</label>
+              <input type="email" placeholder="Email" required id="updatePfEmail" />
+            </div>
             <input
               type="password"
               placeholder="Old Password"
@@ -28,23 +30,33 @@
               required
               id="updatePfNewPass"
             />
-            <input
-              type="text"
-              placeholder="Frist name"
-              required
-              id="updatePfFirstName"
-            />
-            <input type="text" placeholder="Last name" required id="updatePfLastName" />
-            <input
-              type="date"
-              placeholder="Birth date"
-              required
-              id="updatePfBirthDate"
-            />
+            <div class="labeledInput">
+              <label >First name </label>
+              <input
+                type="text"
+                placeholder="Frist name"
+                required
+                id="updatePfFirstName"
+              />
+            </div>
+            <div class="labeledInput">
+              <label>Last name</label>
+              <input type="text" placeholder="Last name" required id="updatePfLastName" />
+            </div>
+            <div class="labeledInput">
+              <label>Birth Date</label>
+              <input
+                type="date"
+                placeholder="Birth date"
+                required
+                id="updatePfBirthDate"
+              />
+            </div>
             <div class="updatePfErrors"></div>
             <button id="saveBtn">Save</button>
         </div>
       </div>
+    </div>
     </div>
   </body>
 </html>

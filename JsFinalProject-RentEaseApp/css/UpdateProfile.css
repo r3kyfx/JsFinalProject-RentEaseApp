@@ -22,6 +22,7 @@
     filter: drop-shadow(1px 1px 15px rgb(66, 66, 66));
     padding: 20px;
     overflow: hidden;
+    color: #404348;
 }
 
 .updatePf-form,
@@ -43,5 +44,41 @@
     background-color: rgb(194, 226, 222);
     z-index: 2;
     transform: translateY(-100%);
-    transition: transform 1.5s cubic-bezier(0,.92,.97,.04)
+    transition: transform 1.5s cubic-bezier(0,.92,.97,.04);
+    font-size: 4rem;
+    font-weight: 700;
+}
+
+.inputs > input,
+.labeledInput > input{
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: 1px solid black;
+    font-size: 1rem;
+}
+.inputs > input,
+.labeledInput{
+    width: 70%;
+}
+
+.labeledInput > input{
+    flex: 1;
+}
+
+.labeledInput{
+    display: flex;
+    align-items: center;
+    gap: 1vh;
+}
+
+.inputs{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 2vh;
+}
+
+h1{
+    font-size: 3rem;
 }

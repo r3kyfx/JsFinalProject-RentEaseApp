@@ -49,6 +49,6 @@ saveBtn.addEventListener("click" , () => {
     }, 1000)
     setTimeout(() => {
     succes.style.transition = "none";
-    succes.style.transform = "translateY(-100%)"; // Reset position
+    succes.style.transform = "translateY(-100%)";
     }, 2500); 
 })
