@@ -7,19 +7,45 @@
 }
 
 table{
-    width: 100%;
+    width: 80%;
     border-collapse: collapse;
     margin-top: 20px;
+    justify-self: center;
+    border-radius: 10px;
+    color: #0B1D51;
+    filter: drop-shadow(1px 10px 10px rgb(109, 97, 97));
 }
 th,
 td{
-    border: 1px solid #ccc;
     padding: 8px;
     text-align: center;
+    background-image: url('https://www.transparenttextures.com/patterns/white-wall-3.png');
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    border: 1px solid black;
 }
 th{
-    background-color: #f4f4f4;
+    border-radius: 5px;
+    border: 1px solid black;
 }
+
+
 .favorite-toggle {
     cursor: pointer;
+}
+
+
+.container{
+    height: 100vh;
+    background: url('../assets//bg.png');
+    background-size: cover;
+
+}
+.removeFav{
+    padding: 2px 30px;
+    border-radius: 7px;
+    border: none;
+    background-color: #ff6b6b;
+    color: #fefefe;
+    font-weight: 600;
 }

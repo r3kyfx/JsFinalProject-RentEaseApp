@@ -46,7 +46,7 @@ function createMenu(){
         updatePf : "../pages/UpdateProfile.html",
         allFlats : "../pages/AllFlats.html",
         newFlat : "../pages/NewFlat.html",
-        logOut : "../pages/Login/Register.html",
+        logOut : "../pages/LoginRegister.html",
     }
 
     menu.addEventListener("change" , (e) => {

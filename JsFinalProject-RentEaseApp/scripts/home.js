@@ -7,9 +7,11 @@ const loggedUser = getLoggedUser();
 const users = JSON.parse(localStorage.getItem("users"));
 const userIndex = users.findIndex(u => u.email === loggedUser.email);
 
-function CreateTableRow(flat){
+let favFlats = loggedUser.flats.filter((flat) => flat.isFavorite === true)
+
+function CreateTableRow(flat , index){
     return `
-        <tr>
+        <tr data-index = ${index}>
             <td>${flat.city}</td>
             <td>${flat.streetName}</td>
             <td>${flat.streetNumber}</td>
@@ -39,26 +41,27 @@ function CreateTable(container , flats){
                 <th>Date Available</th>
                 <th>Remove</th>
             </tr>
-            </thead> 
+            </thead>
+            <tbody>
+                ${flats.map((flat , index) => CreateTableRow(flat, index)).join("")}
+            </tbody>
         `
-    let tbody = `<tbody>`
-    flats.forEach(flat => {
-        tbody += CreateTableRow(flat);
-    });
-    tbody += `</tbody>`
+    table.addEventListener("click" , (e) => {
+        if(e.target && e.target.classList.contains("removeFav")){
+            const row = e.target.closest("tr");
+            const rowIndex = parseInt(row.getAttribute("data-index"));
 
-    table.innerHTML += tbody;
-    
-    table.querySelectorAll(".removeFav").forEach((button , i) => {
-        button.addEventListener("click" , () => {
-            loggedUser.flats[i].isFavorite = false;
-            users[userIndex] = loggedUser;
-            localStorage.setItem("users" , JSON.stringify(users));
-        })
+            const originalIndex = loggedUser.flats.findIndex(flat => flat === favFlats[rowIndex]);
+            if(originalIndex != -1){
+                loggedUser.flats[originalIndex].isFavorite = false;
+                users[userIndex].flats = loggedUser.flats;
+                localStorage.setItem("users" , JSON.stringify(users));
+                favFlats.splice(rowIndex , 1);
+                row.remove();
+            }
+        }
     })
-
     container.append(table);
 }
 
-let favFlats = getLoggedUser().flats.filter((flat) => flat.isFavorite === true)
 CreateTable(homeContainer , favFlats);
