@@ -3,7 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../css/UpdateProfile.css">
+    <link rel="stylesheet" href="../css/Global.css" />
+    <link rel="stylesheet" href="../css/Header.css" />
+    <link rel="stylesheet" href="../css/UpdateProfile.css" />
+    <!-- <link rel="stylesheet" href="../css/Header.css" /> -->
     <script src="../scripts/updateProfile.js" type="module" defer></script>
     <title>Document</title>
   </head>
@@ -15,8 +18,13 @@
           <h1>Update Profile</h1>
           <div class="inputs">
             <div class="labeledInput">
-              <label >Email</label>
-              <input type="email" placeholder="Email" required id="updatePfEmail" />
+              <label>Email</label>
+              <input
+                type="email"
+                placeholder="Email"
+                required
+                id="updatePfEmail"
+              />
             </div>
             <input
               type="password"
@@ -31,7 +39,7 @@
               id="updatePfNewPass"
             />
             <div class="labeledInput">
-              <label >First name </label>
+              <label>First name </label>
               <input
                 type="text"
                 placeholder="Frist name"
@@ -41,7 +49,12 @@
             </div>
             <div class="labeledInput">
               <label>Last name</label>
-              <input type="text" placeholder="Last name" required id="updatePfLastName" />
+              <input
+                type="text"
+                placeholder="Last name"
+                required
+                id="updatePfLastName"
+              />
             </div>
             <div class="labeledInput">
               <label>Birth Date</label>
@@ -54,9 +67,9 @@
             </div>
             <div class="updatePfErrors"></div>
             <button id="saveBtn">Save</button>
+          </div>
         </div>
       </div>
-    </div>
     </div>
   </body>
 </html>

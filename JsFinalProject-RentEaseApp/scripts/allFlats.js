@@ -1,13 +1,15 @@
 import { getHeader } from "./header.js";
 import { getLoggedUser } from "./utils.js";
-const homeContainer = document.getElementsByClassName("container")[0];
-getHeader(homeContainer);
+const allFLatsContainer = document.getElementsByClassName("container")[0];
+getHeader(allFLatsContainer);
 
 const loggedUser = getLoggedUser();
 const users = JSON.parse(localStorage.getItem("users"));
 const userIndex = users.findIndex(u => u.email === loggedUser.email);
 
+
 function CreateTableRow(flat){
+    
     return `
         <tr>
             <td>${flat.city}</td>
@@ -18,7 +20,7 @@ function CreateTableRow(flat){
             <td>${flat.yearBuilt}</td>
             <td>${flat.rentPrice}</td>
             <td>${flat.dateAvailable}</td>
-            <td><button class="removeFav">X</button></td>
+            <td><input type="checkbox" class="favorite-toggle" ${flat.isFavorite === true ? "checked" : ""} /></td>
         </tr>
     `
 }
@@ -37,7 +39,7 @@ function CreateTable(container , flats){
                 <th>Year Built</th>
                 <th>Rent Price ($)</th>
                 <th>Date Available</th>
-                <th>Remove</th>
+                <th>Favourite</th>
             </tr>
             </thead> 
         `
@@ -49,9 +51,9 @@ function CreateTable(container , flats){
 
     table.innerHTML += tbody;
     
-    table.querySelectorAll(".removeFav").forEach((button , i) => {
-        button.addEventListener("click" , () => {
-            loggedUser.flats[i].isFavorite = false;
+    table.querySelectorAll(".favorite-toggle").forEach((checkbox , i) => {
+        checkbox.addEventListener("change" , () => {
+            loggedUser.flats[i].isFavorite = checkbox.checked;
             users[userIndex] = loggedUser;
             localStorage.setItem("users" , JSON.stringify(users));
         })
@@ -60,5 +62,4 @@ function CreateTable(container , flats){
     container.append(table);
 }
 
-let favFlats = getLoggedUser().flats.filter((flat) => flat.isFavorite === true)
-CreateTable(homeContainer , favFlats);
+CreateTable(allFLatsContainer , loggedUser.flats);

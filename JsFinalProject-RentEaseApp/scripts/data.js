@@ -11,7 +11,7 @@ class User {
 }
 
 class Flat {
-    constructor(city , streetName , streetNumber , areaSize , hasAC , yearBuilt , rentPrice , dateAvailable){
+    constructor(city , streetName , streetNumber , areaSize , hasAC , yearBuilt , rentPrice , dateAvailable , isFavorite){
         this.city = city;
         this.streetName = streetName;
         this.streetNumber = streetNumber;
@@ -20,6 +20,7 @@ class Flat {
         this.yearBuilt = yearBuilt;
         this.rentPrice = rentPrice;
         this.dateAvailable = dateAvailable;
+        this.isFavorite = isFavorite;
     }
 }
 

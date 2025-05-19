@@ -2,7 +2,8 @@ import { checkPassword } from "./utils.js";
 import { User } from "./data.js";
 
 const regBtn = document.getElementById("regBtn");
-const regForm = document.getElementById("regForm")
+const regForm = document.getElementById("regForm");
+const regSucces = document.getElementsByClassName("regSucces")[0];
 const logBtn = document.getElementById("logBtn")
 const container = document.getElementsByClassName("container")[0];
 const actualLogBtn = document.getElementById("actualLogBtn");
@@ -20,6 +21,13 @@ const firstName = document.getElementById("firstName");
 const lastName = document.getElementById("lastName");
 const birthDate = document.getElementById("birthDate");
 const regErrors = document.getElementsByClassName("regErrors")[0];
+
+window.addEventListener("pageshow", () => {
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    users.forEach(user => user.isLogged = false);
+    localStorage.setItem("users", JSON.stringify(users));
+});
+
 
 regBtn.addEventListener("click" , () => {
     regForm.style.transform = "translateY(0%)";
@@ -81,12 +89,14 @@ actualRegBtn.addEventListener("click" , () => {
             firstName.value,
             lastName.value,
             birthDate.value,
-            false,
+            true,
             []
         );
-
+        
         users.push(newUser);
         localStorage.setItem("users" , JSON.stringify(users));
+
+        window.location.assign("../pages/HomePage.html");
     }else{
         regErrors.innerText = "User already exists";
         return;

@@ -15,4 +15,19 @@ function checkTimeOut(currentTime , loggedTime){
     return currentTime > loggedTime + 60 * 60 * 1000
 }
 
-export { checkPassword , checkTimeOut};
+function dropDownAnimation(element){
+    setTimeout(() => {
+        element.style.transition = "transform 0.5s ease";
+        element.style.transform = "translateY(100%)"; 
+    }, 1000)
+    setTimeout(() => {
+        element.style.transition = "none";
+        element.style.transform = "translateY(-100%)";
+    }, 2500); 
+}
+
+function getLoggedUser(){
+    const users = JSON.parse(localStorage.getItem("users"));
+    return users.find(user => user.isLogged === true);
+}
+export { checkPassword , checkTimeOut , dropDownAnimation , getLoggedUser};
