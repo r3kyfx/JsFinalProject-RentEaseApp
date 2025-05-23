@@ -1,4 +1,4 @@
-import { checkPassword } from "./utils.js";
+import { checkPassword , logDate} from "./utils.js";
 import { User } from "./data.js";
 
 const regBtn = document.getElementById("regBtn");

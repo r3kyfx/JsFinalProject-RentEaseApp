@@ -8,7 +8,7 @@
 
 .form{
     position: relative;
-    height: 70vh;
+    height: 75vh;
     width: 70vh;
     background-color: white;
     border-radius: 20px;
@@ -47,7 +47,7 @@
     padding: 10px 15px;
     border-radius: 5px;
     border: 1px solid black;
-    font-size: 1rem;
+    font-size: .9rem;
 }
 .inputs > input,
 .labeledInput{
@@ -74,4 +74,16 @@
 
 h1{
     font-size: 3rem;
+}
+
+.inputs > button{
+    margin: auto;
+
+    padding: 2% 5%;
+    background: linear-gradient(135deg, #74ebd5, #4facfe);
+    border-radius: 10px;
+    border: 1px solid black;
+    font-weight: 600;
+    font-size: 15px;
+
 }

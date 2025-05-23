@@ -11,10 +11,6 @@ function checkPassword(password) {
     return "";
 }
 
-function checkTimeOut(currentTime , loggedTime){
-    return currentTime > loggedTime + 60 * 60 * 1000
-}
-
 function dropDownAnimation(element){
     setTimeout(() => {
         element.style.transition = "transform 0.5s ease";
@@ -30,4 +26,23 @@ function getLoggedUser(){
     const users = JSON.parse(localStorage.getItem("users"));
     return users.find(user => user.isLogged === true);
 }
-export { checkPassword , checkTimeOut , dropDownAnimation , getLoggedUser};
+
+function logDate(userEmail){
+    const current = Date.now();
+    sessionStorage.setItem(userEmail, current.toString());
+}
+
+function checkTimeOut(userEmail){
+    const loggedTime = parseInt(sessionStorage.getItem(userEmail), 10);
+    const currentTime = Date.now();
+
+    const oneHour = 60 * 60 * 1000; 
+
+    if (currentTime - loggedTime > oneHour) {
+        alert("Session expired");
+        window.location.assign("../pages/LoginRegister");
+        return false
+    }
+    return true
+}
+export { checkPassword , checkTimeOut , dropDownAnimation , getLoggedUser , logDate};
