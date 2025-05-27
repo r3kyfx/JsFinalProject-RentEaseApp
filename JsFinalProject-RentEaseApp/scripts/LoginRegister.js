@@ -53,6 +53,7 @@ actualLogBtn.addEventListener("click" , () => {
             else user.isLogged = false;
         });
         localStorage.setItem("users" , JSON.stringify(users));
+        logDate(logEmail.value);
         window.location.href = "./HomePage.html";
     }else{
         logErrors.innerText = "Email or password invalid";
@@ -95,7 +96,7 @@ actualRegBtn.addEventListener("click" , () => {
         
         users.push(newUser);
         localStorage.setItem("users" , JSON.stringify(users));
-
+        logDate(regEmail.value);
         window.location.assign("../pages/HomePage.html");
     }else{
         regErrors.innerText = "User already exists";

@@ -6,6 +6,19 @@ getHeader(allFLatsContainer);
 const loggedUser = getLoggedUser();
 const users = JSON.parse(localStorage.getItem("users"));
 const userIndex = users.findIndex(u => u.email === loggedUser.email);
+const filter = document.getElementById("filterBtn");
+const filterTab = document.querySelector(".filterTab");
+
+//filter options
+//city filter
+const cityFilter = document.getElementById("cityFilter");
+console.log(cityFilter.value)
+//price fillter
+const minPrice = document.getElementById("minPirce")
+const maxPrice = document.getElementById("maxPrice");
+//area filter
+const minArea = document.getElementById("minArea");
+const maxArea = document.getElementById("maxArea");
 
 
 function CreateTableRow(flat){
@@ -60,6 +73,23 @@ function CreateTable(container , flats){
     })
 
     container.append(table);
+}
+
+filter.addEventListener("click" , () => {
+    filterTab.classList.toggle("filterTabShown")
+    allFLatsContainer.classList.toggle("lowOpacity")
+})
+
+filterTab.addEventListener("submit" , (e) => {
+    e.preventDefault();
+    filterTab.classList.remove("filterTabShown");
+    allFLatsContainer.classList.remove("lowOpacity")
+    allFLatsContainer.querySelector("table").remove();
+    CreateTable(allFLatsContainer , filterByCity(cityFilter.value.trim()))
+})
+
+function filterByCity(city){
+    return loggedUser.flats.filter(flat => flat.city.toLowerCase() === city.toLowerCase())
 }
 
 CreateTable(allFLatsContainer , loggedUser.flats);

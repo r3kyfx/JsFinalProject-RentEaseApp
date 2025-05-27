@@ -1,9 +1,10 @@
 import { getHeader } from "./header.js";
-import { getLoggedUser } from "./utils.js";
+import { getLoggedUser  , checkTimeOut} from "./utils.js";
+const loggedUser = getLoggedUser();
+checkTimeOut(loggedUser.email);
 const homeContainer = document.getElementsByClassName("container")[0];
 getHeader(homeContainer);
 
-const loggedUser = getLoggedUser();
 const users = JSON.parse(localStorage.getItem("users"));
 const userIndex = users.findIndex(u => u.email === loggedUser.email);
 
@@ -26,6 +27,7 @@ function CreateTableRow(flat , index){
 }
 
 function CreateTable(container , flats){
+    
     const table = document.createElement("table");
     table.innerHTML = 
         `

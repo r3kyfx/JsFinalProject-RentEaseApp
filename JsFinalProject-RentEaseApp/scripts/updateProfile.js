@@ -29,6 +29,10 @@ saveBtn.addEventListener("click" , () => {
         upfErrors.innerHTML = "Old password is incorect"
         return;
     }
+    if(oldPass.value.trim() === ""){
+        upfErrors.innerHTML = "Old password is required"
+        return;
+    }
 
     let passCheck = checkPassword(newPass.value);
     if(passCheck !== "") {
@@ -36,10 +40,10 @@ saveBtn.addEventListener("click" , () => {
         return;
     }
     
-    loggedUser.email = upfEmail.value;
-    loggedUser.password = newPass.value;
-    loggedUser.firstName = upfFirstName.value;
-    loggedUser.lastName = upfLastName.value;
+    loggedUser.email = upfEmail.value.trim();
+    if(newPass.value.trim() !== "") loggedUser.password = newPass.value;
+    loggedUser.firstName = upfFirstName.value.trim();
+    loggedUser.lastName = upfLastName.value.trim();
     loggedUser.birthDate = upfDate.value;
 
     users[loggedIndex] = loggedUser;

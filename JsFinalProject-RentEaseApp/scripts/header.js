@@ -52,8 +52,10 @@ function createMenu(){
     menu.addEventListener("change" , (e) => {
         const targetPage = router[e.target.value];
         if(targetPage) {
-            if(!checkTimeOut(loggedUser.email)) return;
-            window.location.assign(targetPage);
+            if(checkTimeOut(loggedUser.email)) {
+                window.location.assign(targetPage);
+            }; 
+            return
         }
     })
 

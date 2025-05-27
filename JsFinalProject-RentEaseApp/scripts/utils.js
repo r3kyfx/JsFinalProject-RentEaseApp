@@ -40,7 +40,7 @@ function checkTimeOut(userEmail){
 
     if (currentTime - loggedTime > oneHour) {
         alert("Session expired");
-        window.location.assign("../pages/LoginRegister");
+        window.location.assign("../pages/LoginRegister.html");
         return false
     }
     return true
