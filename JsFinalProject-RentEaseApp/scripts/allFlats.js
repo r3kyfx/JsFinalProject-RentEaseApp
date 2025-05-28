@@ -6,25 +6,26 @@ getHeader(allFLatsContainer);
 const loggedUser = getLoggedUser();
 const users = JSON.parse(localStorage.getItem("users"));
 const userIndex = users.findIndex(u => u.email === loggedUser.email);
+let filteredFlats = [...loggedUser.flats]
 const filter = document.getElementById("filterBtn");
 const filterTab = document.querySelector(".filterTab");
+const showAllBtn = document.getElementById("showAll");
 
 //filter options
 //city filter
 const cityFilter = document.getElementById("cityFilter");
-console.log(cityFilter.value)
 //price fillter
-const minPrice = document.getElementById("minPirce")
+const minPrice = document.getElementById("minPrice")
 const maxPrice = document.getElementById("maxPrice");
 //area filter
 const minArea = document.getElementById("minArea");
 const maxArea = document.getElementById("maxArea");
 
 
-function CreateTableRow(flat){
+function CreateTableRow(flat , index){
     
     return `
-        <tr>
+        <tr data-index = ${index}>
             <td>${flat.city}</td>
             <td>${flat.streetName}</td>
             <td>${flat.streetNumber}</td>
@@ -54,47 +55,101 @@ function CreateTable(container , flats){
                 <th>Date Available</th>
                 <th>Favourite</th>
             </tr>
-            </thead> 
+            </thead>
+            <tbody>
+                ${flats.map((flat , index) => CreateTableRow(flat, index)).join("")}
+                <tr class="hide">
+                    <td colspan=9 >No items to show</td>
+                </tr>
+            </tbody>
         `
-    let tbody = `<tbody>`
-    flats.forEach(flat => {
-        tbody += CreateTableRow(flat);
-    });
-    tbody += `</tbody>`
 
-    table.innerHTML += tbody;
-    
-    table.querySelectorAll(".favorite-toggle").forEach((checkbox , i) => {
-        checkbox.addEventListener("change" , () => {
-            loggedUser.flats[i].isFavorite = checkbox.checked;
-            users[userIndex] = loggedUser;
-            localStorage.setItem("users" , JSON.stringify(users));
-        })
+    table.addEventListener("change" , (e) => {
+        if(e.target && e.target.classList.contains("favorite-toggle")){
+            const row = e.target.closest("tr");
+            const rowIndex = parseInt(row.getAttribute("data-index"));
+
+            const originalIndex = loggedUser.flats.findIndex(flat => flat === filteredFlats[rowIndex]);
+            if(originalIndex != -1){
+                loggedUser.flats[originalIndex].isFavorite = e.target.checked;
+                users[userIndex].flats = loggedUser.flats;
+                localStorage.setItem("users" , JSON.stringify(users));
+            }
+        }
     })
 
     container.append(table);
 }
 
+//filter logic
+
 filter.addEventListener("click" , () => {
-    filterTab.classList.toggle("filterTabShown")
-    allFLatsContainer.classList.toggle("lowOpacity")
+    filterTab.classList.add("filterTabShown");
+    allFLatsContainer.classList.add("lowOpacity");
 })
 
 filterTab.addEventListener("submit" , (e) => {
     e.preventDefault();
-    filterTab.classList.remove("filterTabShown");
-    allFLatsContainer.classList.remove("lowOpacity")
+
     allFLatsContainer.querySelector("table").remove();
-    CreateTable(allFLatsContainer , filterByCity(loggedUser.falts , cityFilter.value.trim()))
+
+    filteredFlats = loggedUser.flats
+        .filterByString("city" , cityFilter.value)
+        .filterByNumber("rentPrice" , minPrice.value , maxPrice.value)
+        .filterByNumber("areaSize" , minArea.value , maxArea.value)
+    CreateTable(allFLatsContainer , filteredFlats);
+    
+    const noItemsMsg = allFLatsContainer.querySelector("table tbody .hide")
+
+    if(filteredFlats.length === 0) noItemsMsg.classList.remove("hide");
+    else noItemsMsg.classList.add("hide");
 })
 
-function filterByCity(arr , city){
-    return arr.filter(flat => flat.city.toLowerCase() === city.toLowerCase())
+document.addEventListener("click" , (e) => {
+    if(!filterTab.contains(e.target) && !filter.contains(e.target)) 
+        hideFilterTab();
+})
+
+document.addEventListener("keydown" , (e) => {
+    if(e.key === "Escape") hideFilterTab()
+})
+
+function hideFilterTab(){
+        filterTab.classList.remove("filterTabShown");
+        allFLatsContainer.classList.remove("lowOpacity")
 }
 
-function filterByPrice(arr , minPrice , maxPrice){
-    if(minPrice === undefined) minPrice = 0;
-    if(maxPrice === undefined) maxPrice = 1000000;
+showAllBtn.addEventListener("click" , () => {
+    filteredFlats = [...loggedUser.flats];
+    allFLatsContainer.querySelector("table").remove();
+    resetFilterInputs();
+    CreateTable(allFLatsContainer , filteredFlats);
+
+    const noItemsMsg = allFLatsContainer.querySelector("table tbody .hide");
+    noItemsMsg.classList.add("hide");
+})
+//filter functions
+function resetFilterInputs(){
+    cityFilter.value = "";
+    minPrice.value = "";
+    maxPrice.value = "";
+    minArea.value = "";
+    maxArea.value = "";
+}
+
+Array.prototype.filterByString = function(strProp , city){
+    if(city.trim() === "" || city === undefined || city === null) return this;
+    return this.filter(flat => flat[strProp].toLowerCase() === city.toLowerCase())
+}
+
+Array.prototype.filterByNumber = function(nrProp , minProp , maxProp){
+    if(minProp === undefined || minProp === null || minProp === "") minProp = 0;
+    if(maxProp === undefined || maxProp === null || maxProp === "") maxProp = Number.MAX_SAFE_INTEGER;
+
+    minProp = Number(minProp);
+    maxProp = Number(maxProp);
+
+    return this.filter(flat => flat[nrProp] >= minProp && flat[nrProp] <= maxProp);
 }
 
 CreateTable(allFLatsContainer , loggedUser.flats);

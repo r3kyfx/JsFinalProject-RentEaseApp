@@ -49,3 +49,29 @@ th{
     color: #fefefe;
     font-weight: 600;
 }
+
+.formContainer{
+    position: relative;
+    height: 75vh;
+    width: 70vh;
+    background-color: white;
+    border-radius: 20px;
+    filter: drop-shadow(1px 1px 15px rgb(66, 66, 66));
+    padding: 20px;
+    overflow: hidden;
+    color: #404348;
+}
+
+.updatePf-form,
+.succes{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    top: 0;
+}

@@ -25,19 +25,22 @@ upfDate.value = loggedUser.birthDate;
 saveBtn.addEventListener("click" , () => {
     upfErrors.innerHTML = "";
 
-    if(oldPass.value != loggedUser.password){
-        upfErrors.innerHTML = "Old password is incorect"
-        return;
-    }
     if(oldPass.value.trim() === ""){
         upfErrors.innerHTML = "Old password is required"
         return;
     }
 
-    let passCheck = checkPassword(newPass.value);
-    if(passCheck !== "") {
-        upfErrors.innerHTML = passCheck;
+    if(oldPass.value != loggedUser.password){
+        upfErrors.innerHTML = "Old password is incorect"
         return;
+    }
+
+    if(newPass.value.trim() != ""){
+        let passCheck = checkPassword(newPass.value);
+        if(passCheck !== "") {
+            upfErrors.innerHTML = passCheck;
+            return;
+        }
     }
     
     loggedUser.email = upfEmail.value.trim();
@@ -53,3 +56,7 @@ saveBtn.addEventListener("click" , () => {
 
     dropDownAnimation(succes);
 })
+
+function updateInputs(){
+    
+}

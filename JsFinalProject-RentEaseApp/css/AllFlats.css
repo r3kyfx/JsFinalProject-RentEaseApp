@@ -35,10 +35,27 @@ body{
 .filterTab > div {
     display: flex;
     flex-direction: column;
-    padding-right: 5rem;
+    padding: 0 2rem 0 2rem;
 }
 
 .filterTab > button{
     align-self: center;
     padding: 5px 20px;
+}
+
+.hide{
+    display: none;
+}
+
+.filterTab > .buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 0;
+    gap: 1rem;
+}
+.buttons > button{
+    padding: 6px 12px;
+    border-radius: 5px;
+    border: 1px solid black;
 }
