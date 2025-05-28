@@ -63,7 +63,8 @@ th{
 }
 
 .updatePf-form,
-.succes{
+.succes,
+.succesNewFlat{
     height: 100%;
     width: 100%;
     display: flex;
@@ -74,4 +75,15 @@ th{
     position: absolute;
     left: 0;
     top: 0;
+}
+
+.succes,
+.succesNewFlat{
+    color: green;
+    background-color: rgb(194, 226, 222);
+    z-index: 2;
+    transform: translateY(-100%);
+    transition: transform 1.5s cubic-bezier(0,.92,.97,.04);
+    font-size: 4rem;
+    font-weight: 700;
 }

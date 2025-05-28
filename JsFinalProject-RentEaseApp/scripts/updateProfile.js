@@ -17,10 +17,7 @@ const loggedIndex = users.findIndex(user => user.isLogged === true);
 
 getHeader(upfContainer);
 
-upfEmail.value = loggedUser.email;
-upfFirstName.value = loggedUser.firstName;
-upfLastName.value = loggedUser.lastName;
-upfDate.value = loggedUser.birthDate;
+updateInputs();
 
 saveBtn.addEventListener("click" , () => {
     upfErrors.innerHTML = "";
@@ -51,6 +48,8 @@ saveBtn.addEventListener("click" , () => {
 
     users[loggedIndex] = loggedUser;
     localStorage.setItem("users" , JSON.stringify(users));
+    updateInputs();
+
     succes.style.transition = "transform 0.5s ease";
     succes.style.transform = "translateY(0%)";
 
@@ -58,5 +57,10 @@ saveBtn.addEventListener("click" , () => {
 })
 
 function updateInputs(){
-    
+    upfEmail.value = loggedUser.email;
+    upfFirstName.value = loggedUser.firstName;
+    upfLastName.value = loggedUser.lastName;
+    upfDate.value = loggedUser.birthDate;
+    oldPass.value = "";
+    newPass.value = "";
 }

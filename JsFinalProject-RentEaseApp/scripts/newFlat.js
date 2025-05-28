@@ -1,8 +1,10 @@
 import { getHeader } from "./header.js";
 import { Flat } from "./data.js"
-import { getLoggedUser } from "./utils.js";
+import { getLoggedUser , dropDownAnimation } from "./utils.js";
 const newFlatContainer = document.getElementsByClassName("container")[0];
 getHeader(newFlatContainer);
+
+const succes = document.getElementsByClassName("succesNewFlat")[0];
 
 const flatForm = document.getElementsByClassName("flatForm")[0];
 
@@ -35,4 +37,16 @@ flatForm.addEventListener("submit" , (e) => {
 
     users[loggedIndex] = loggedUser;
     localStorage.setItem("users" , JSON.stringify(users));
+
+    succes.style.transition = "transform 0.5s ease";
+    succes.style.transform = "translateY(0%)";
+    dropDownAnimation(succes);
+
+    resetInputs();
 });
+
+function resetInputs(){
+    flatForm.querySelectorAll("input").forEach(input => {
+        input.value = "";
+    })
+}
