@@ -85,11 +85,16 @@ filterTab.addEventListener("submit" , (e) => {
     filterTab.classList.remove("filterTabShown");
     allFLatsContainer.classList.remove("lowOpacity")
     allFLatsContainer.querySelector("table").remove();
-    CreateTable(allFLatsContainer , filterByCity(cityFilter.value.trim()))
+    CreateTable(allFLatsContainer , filterByCity(loggedUser.falts , cityFilter.value.trim()))
 })
 
-function filterByCity(city){
-    return loggedUser.flats.filter(flat => flat.city.toLowerCase() === city.toLowerCase())
+function filterByCity(arr , city){
+    return arr.filter(flat => flat.city.toLowerCase() === city.toLowerCase())
+}
+
+function filterByPrice(arr , minPrice , maxPrice){
+    if(minPrice === undefined) minPrice = 0;
+    if(maxPrice === undefined) maxPrice = 1000000;
 }
 
 CreateTable(allFLatsContainer , loggedUser.flats);

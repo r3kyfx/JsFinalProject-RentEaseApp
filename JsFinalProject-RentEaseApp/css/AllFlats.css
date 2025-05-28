@@ -22,7 +22,7 @@ body{
     flex-direction: column;
     padding: 4rem 2rem;
     gap: 2rem;
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .filterTabShown{
