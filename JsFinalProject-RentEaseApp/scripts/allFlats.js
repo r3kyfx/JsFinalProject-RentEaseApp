@@ -10,6 +10,8 @@ let filteredFlats = [...loggedUser.flats]
 const filter = document.getElementById("filterBtn");
 const filterTab = document.querySelector(".filterTab");
 const showAllBtn = document.getElementById("showAll");
+const autoComplete = document.getElementsByClassName("suggestions")[0]
+
 
 //filter options
 //city filter
@@ -83,9 +85,41 @@ function CreateTable(container , flats){
 
 //filter logic
 
-filter.addEventListener("click" , () => {
+//autocomplete
+
+cityFilter.addEventListener("input" , (e) => {
+    autoComplete.innerHTML = '';
+    let input = e.target.value.trim();
+    if(input === '') return;
+
+    let cities = [...new Set(
+        loggedUser.flats
+        .filter(flat => flat.city
+                            .trim()
+                            .toLowerCase()
+                            .startsWith(
+                                input
+                                .toLowerCase()
+                            ))
+        .map(flat => flat.city)
+    )]
+
+    cities.forEach(city => {
+        let div = document.createElement("div");
+        div.innerHTML = city;
+        div.addEventListener("click" , (e) => {
+            e.stopPropagation();
+            cityFilter.value = city;
+            autoComplete.innerHTML = ''
+        })
+        autoComplete.append(div);
+    });
+})
+
+filter.addEventListener("click" , (e) => {
     filterTab.classList.add("filterTabShown");
     allFLatsContainer.classList.add("lowOpacity");
+    e.stopPropagation()
 })
 
 filterTab.addEventListener("submit" , (e) => {
@@ -105,18 +139,25 @@ filterTab.addEventListener("submit" , (e) => {
     else noItemsMsg.classList.add("hide");
 })
 
-document.addEventListener("click" , (e) => {
-    if(!filterTab.contains(e.target) && !filter.contains(e.target)) 
+document.addEventListener("click", (e) => {
+    if (
+        !filterTab.contains(e.target) &&
+        !autoComplete.contains(e.target)
+    ) {
         hideFilterTab();
-})
+    }
+});
 
 document.addEventListener("keydown" , (e) => {
     if(e.key === "Escape") hideFilterTab()
 })
 
+
+
 function hideFilterTab(){
-        filterTab.classList.remove("filterTabShown");
-        allFLatsContainer.classList.remove("lowOpacity")
+    filterTab.classList.remove("filterTabShown");
+    allFLatsContainer.classList.remove("lowOpacity");
+    filter.disabled = false;
 }
 
 showAllBtn.addEventListener("click" , () => {

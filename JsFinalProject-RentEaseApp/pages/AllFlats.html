@@ -11,13 +11,17 @@
   </head>
   <body>
     <div class="container">
-      <button id="filterBtn">Filter</button>
+      <div class="buttons">
+        <button type="button" id="filterBtn">Filter</button>
+        <button type="button" id="showAll">Show All</button>
+      </div>
     </div>
     <form class="filterTab">
       <h1>Filter</h1>
       <div>
         <h3>City</h3>
         <input type="text" id="cityFilter">
+        <div class="suggestions"></div>
       </div>
       <div>
         <h3>Price</h3>
@@ -35,7 +39,6 @@
       </div>
       <div class="buttons">
         <button type="submit" id="searchBtn">Search</button>
-        <button type="button" id="showAll">Show All</button>
       </div>
     </form>
   </body>

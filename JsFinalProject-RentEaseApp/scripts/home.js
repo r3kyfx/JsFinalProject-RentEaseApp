@@ -46,6 +46,9 @@ function CreateTable(container , flats){
             </thead>
             <tbody>
                 ${flats.map((flat , index) => CreateTableRow(flat, index)).join("")}
+                <tr class=${favFlats.length === 0 ? '' : 'hide'}>
+                    <td colspan=9 >No items to show</td>
+                </tr>
             </tbody>
         `
     table.addEventListener("click" , (e) => {
@@ -59,6 +62,11 @@ function CreateTable(container , flats){
                 users[userIndex].flats = loggedUser.flats;
                 localStorage.setItem("users" , JSON.stringify(users));
                 favFlats.splice(rowIndex , 1);
+                
+                const noItemsMsg = homeContainer.querySelector("table tbody .hide");
+                if(!favFlats.length) noItemsMsg.classList.remove("hide")
+                else noItemsMsg.classList.add("hide");
+
                 row.remove();
             }
         }

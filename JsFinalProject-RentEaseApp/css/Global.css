@@ -87,3 +87,7 @@ th{
     font-size: 4rem;
     font-weight: 700;
 }
+
+.hide{
+    display: none;
+}
