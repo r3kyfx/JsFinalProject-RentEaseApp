@@ -24,6 +24,7 @@ flatForm.addEventListener("submit" , (e) => {
     const loggedIndex = users.findIndex(user => user.email === loggedUser.email);
 
     loggedUser.flats.push(new Flat(
+        crypto.randomUUID(),
         cityInput.value.trim() , 
         streetNameInput.value.trim() , 
         Number(streetNumberInput.value) ,
@@ -49,4 +50,5 @@ function resetInputs(){
     flatForm.querySelectorAll("input").forEach(input => {
         input.value = "";
     })
+    hasACInput.checked = false;
 }

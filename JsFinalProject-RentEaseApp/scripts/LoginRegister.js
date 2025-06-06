@@ -80,6 +80,23 @@ actualRegBtn.addEventListener("click" , () => {
         regErrors.innerText = passCheck;
         return
     }
+
+    const today = new Date();
+
+    let birthDateValue = new Date(birthDate.value)
+
+    let age = today.getFullYear() - birthDateValue.getFullYear();
+    const monthDiff = today.getMonth() - birthDateValue.getMonth();
+    const dayDiff = today.getDate() - birthDateValue.getDate();
+
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+        age--;
+    }
+    
+    if(age < 18){
+        regErrors.innerText = 'The user must be at least 18 years old';
+        return;
+    }
     
     const users = JSON.parse(localStorage.getItem("users")) || [];
     const uploadUser = users.some((user) => user.email === regEmail.value);

@@ -5,9 +5,28 @@
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
 }
+.noItemsMsg{
+    width: 20vh;
+    justify-self: center;
+    text-align: center;
+    margin-top: 2%;
+    border: 1px solid  black;
+    border-radius: 5px;
+    background-image: url('https://www.transparenttextures.com/patterns/white-wall-3.png');
+    background-color: #f9f9f9;
+    
+}
+
+.table-container{
+    width: 80%;
+    overflow-x: auto;
+    display: flex;
+    position: relative;
+    margin: auto;
+}
 
 table{
-    width: 80%;
+    width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
     justify-self: center;
@@ -15,6 +34,10 @@ table{
     color: #0B1D51;
     filter: drop-shadow(1px 10px 10px rgb(109, 97, 97));
 }
+thead{
+    position: sticky;
+}
+
 th,
 td{
     padding: 8px;

@@ -45,4 +45,49 @@ function checkTimeOut(userEmail){
     }
     return true
 }
-export { checkPassword , checkTimeOut , dropDownAnimation , getLoggedUser , logDate};
+
+function transposeTable(table){
+    let rowLen = table.rows.length;
+    let colLen = table.rows[0].cells.length;
+
+    let newTable = Array.from({length : colLen} , () => new Array(rowLen).fill(null));
+
+    Array.from(table.rows).forEach((row , i) => {
+        if(row.cells.length > 1){
+            Array.from(row.cells).forEach((cell , j) => {
+                newTable[j][i] = cell;
+            })
+        }
+    });
+
+    const domTable = document.createElement("table");
+
+    newTable.forEach(row => {
+        const tr = document.createElement("tr");
+
+        row.forEach(cell => {
+            if(cell) tr.append(cell);
+        })
+        domTable.append(tr);
+    })
+    domTable.setAttribute("data-transposed", "true");
+    table.replaceWith(domTable);
+}
+
+function handleNoItems(container , flats){
+    const noItemsMsg = document.getElementsByClassName("noItemsMsg")[0];
+    if(noItemsMsg) noItemsMsg.remove()
+    //generate no items msg 
+    if (flats.length === 0) generateNoItems(container);
+    
+}
+
+function generateNoItems(container){
+
+    const noItemsMsg = document.createElement('div');
+    noItemsMsg.classList.add('noItemsMsg');
+    noItemsMsg.textContent = 'No items to show';
+    container.append(noItemsMsg);
+}
+
+export { transposeTable , checkPassword , checkTimeOut , dropDownAnimation , getLoggedUser , logDate , handleNoItems , generateNoItems};

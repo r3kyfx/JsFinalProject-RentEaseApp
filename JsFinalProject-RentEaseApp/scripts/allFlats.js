@@ -1,5 +1,5 @@
 import { getHeader } from "./header.js";
-import { getLoggedUser } from "./utils.js";
+import { getLoggedUser , transposeTable , handleNoItems } from "./utils.js";
 const allFLatsContainer = document.getElementsByClassName("container")[0];
 getHeader(allFLatsContainer);
 
@@ -12,6 +12,7 @@ const filterTab = document.querySelector(".filterTab");
 const showAllBtn = document.getElementById("showAll");
 const autoComplete = document.getElementsByClassName("suggestions")[0]
 
+const mediaQuery = window.matchMedia('(max-width: 750px)') //phone media querry
 
 //filter options
 //city filter
@@ -24,10 +25,10 @@ const minArea = document.getElementById("minArea");
 const maxArea = document.getElementById("maxArea");
 
 
-function CreateTableRow(flat , index){
+function CreateTableRow(flat){
     
     return `
-        <tr data-index = ${index}>
+        <tr >
             <td>${flat.city}</td>
             <td>${flat.streetName}</td>
             <td>${flat.streetNumber}</td>
@@ -36,13 +37,16 @@ function CreateTableRow(flat , index){
             <td>${flat.yearBuilt}</td>
             <td>${flat.rentPrice}</td>
             <td>${flat.dateAvailable}</td>
-            <td><input type="checkbox" class="favorite-toggle" ${flat.isFavorite === true ? "checked" : ""} /></td>
+            <td><input  data-id = ${flat.id} type="checkbox" class="favorite-toggle" ${flat.isFavorite === true ? "checked" : ""} /></td>
         </tr>
     `
 }
 
 function CreateTable(container , flats){
+    const tableContainer = document.createElement("div");
+    tableContainer.classList.add("table-container");
     const table = document.createElement("table");
+    table.setAttribute("data-transposed" , mediaQuery.matches);
     table.innerHTML = 
         `
             <thead>
@@ -59,28 +63,28 @@ function CreateTable(container , flats){
             </tr>
             </thead>
             <tbody>
-                ${flats.map((flat , index) => CreateTableRow(flat, index)).join("")}
-                <tr class="hide">
-                    <td colspan=9 >No items to show</td>
-                </tr>
+                ${flats.map((flat) => CreateTableRow(flat)).join("")}
             </tbody>
         `
 
-    table.addEventListener("change" , (e) => {
-        if(e.target && e.target.classList.contains("favorite-toggle")){
-            const row = e.target.closest("tr");
-            const rowIndex = parseInt(row.getAttribute("data-index"));
+    tableContainer.addEventListener("click" , (e) => {
+        const button = e.target;
+        if (!button.classList.contains("favorite-toggle")) return;
+        
+        const flatId = button.dataset.id;
 
-            const originalIndex = loggedUser.flats.findIndex(flat => flat === filteredFlats[rowIndex]);
-            if(originalIndex != -1){
-                loggedUser.flats[originalIndex].isFavorite = e.target.checked;
-                users[userIndex].flats = loggedUser.flats;
-                localStorage.setItem("users" , JSON.stringify(users));
-            }
-        }
+        if(!flatId) return;
+
+        const absoluteIndex = loggedUser.flats.findIndex(flat => flat.id === flatId);
+
+        if(absoluteIndex === -1) return;
+
+        loggedUser.flats[absoluteIndex].isFavorite = button.checked;
+        users[userIndex] = loggedUser;
+        localStorage.setItem("users" , JSON.stringify(users));
     })
-
-    container.append(table);
+    tableContainer.append(table);
+    container.append(tableContainer);
 }
 
 //filter logic
@@ -132,11 +136,8 @@ filterTab.addEventListener("submit" , (e) => {
         .filterByNumber("rentPrice" , minPrice.value , maxPrice.value)
         .filterByNumber("areaSize" , minArea.value , maxArea.value)
     CreateTable(allFLatsContainer , filteredFlats);
-    
-    const noItemsMsg = allFLatsContainer.querySelector("table tbody .hide")
-
-    if(filteredFlats.length === 0) noItemsMsg.classList.remove("hide");
-    else noItemsMsg.classList.add("hide");
+    handleNoItems(allFLatsContainer , filteredFlats);
+    if(mediaQuery.matches) transposeTable(document.querySelector("table")) //phone
 })
 
 document.addEventListener("click", (e) => {
@@ -152,8 +153,6 @@ document.addEventListener("keydown" , (e) => {
     if(e.key === "Escape") hideFilterTab()
 })
 
-
-
 function hideFilterTab(){
     filterTab.classList.remove("filterTabShown");
     allFLatsContainer.classList.remove("lowOpacity");
@@ -165,9 +164,8 @@ showAllBtn.addEventListener("click" , () => {
     allFLatsContainer.querySelector("table").remove();
     resetFilterInputs();
     CreateTable(allFLatsContainer , filteredFlats);
-
-    const noItemsMsg = allFLatsContainer.querySelector("table tbody .hide");
-    noItemsMsg.classList.add("hide");
+    handleNoItems(allFLatsContainer , filteredFlats);
+    if(mediaQuery.matches) transposeTable(document.querySelector("table")) //phone
 })
 //filter functions
 function resetFilterInputs(){
@@ -194,3 +192,19 @@ Array.prototype.filterByNumber = function(nrProp , minProp , maxProp){
 }
 
 CreateTable(allFLatsContainer , loggedUser.flats);
+handleNoItems(allFLatsContainer , loggedUser.flats)
+
+// phone
+
+if(mediaQuery.matches) transposeTable(document.querySelector("table"))
+
+mediaQuery.addEventListener("change", (e) => {
+    let table = document.querySelector("table");
+    if (e.matches) {
+        transposeTable(table);
+        table.dataset.transposed = "true";
+    } else {
+        location.reload();
+        table.dataset.transposed = "false";
+    }
+});

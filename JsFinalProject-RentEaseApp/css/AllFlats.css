@@ -24,7 +24,6 @@ body{
     gap: 2rem;
     font-size: 18px;
 }
-
 .filterTabShown{
     transform: translateX(0%);
 }
